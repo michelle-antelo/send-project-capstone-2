@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Project {% block title %} {% endblock %}</title>
+    
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+{% block body %}
+    <nav class="nav-bar">
+        <div class="nav-wrapper">
+            <a href='./' class="site-logo" style="background-image: url('https://cdn-icons-png.flaticon.com/512/1266/1266295.png');"></a>
+            <div class="button-wrapper">
+                <div class="nav-button"><a href='/'>Home</a></div>
+                <div class="nav-button"><a href='/find-friends'>Find Friends</a></div>
+                <div class="nav-button"><a href='/routes'>Routes</a></div>
+                {% if g.user.user_type == 'setter' %}
+                    <div class="nav-button"><a href='/update-routes'>Update Routes</a></div>
+                {% endif %}
+                <div class="nav-button"><a href='/profile'>Profile</a></div>
+                <div class="nav-button"><a href='/logout'>Logout</a></div>
+            </div>
+        </div>
+    </nav>
+    <div class="flash-container">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    
+    {% block content %}{% endblock %}
+{% endblock %}
+</html>
