@@ -11,10 +11,10 @@
 {% block body %}
     <nav class="nav-bar">
         <div class="nav-wrapper">
-            <a href='./' class="site-logo" style="background-image: url('https://cdn-icons-png.flaticon.com/512/1266/1266295.png');"></a>
+            <a href='/' class="site-logo" style="background-image: url('https://cdn-icons-png.flaticon.com/512/1266/1266295.png');"></a>
             <div class="button-wrapper">
                 <div class="nav-button"><a href='/'>Home</a></div>
-                <div class="nav-button"><a href='/find-friends'>Find Friends</a></div>
+                <div class="nav-button"><a href='/friends'>Find Friends</a></div>
                 <div class="nav-button"><a href='/routes'>Routes</a></div>
                 {% if g.user.user_type == 'setter' %}
                     <div class="nav-button"><a href='/update-routes'>Update Routes</a></div>

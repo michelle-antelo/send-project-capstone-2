@@ -50,6 +50,8 @@ class User(db.Model):
         nullable=False,
     )
 
+    routes = db.relationship('Route', backref='users')
+
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
         """Sign up user.
@@ -84,7 +86,53 @@ class User(db.Model):
                 return user
 
         return False
-    
+
+class Route(db.Model):
+    """Routes in the system."""
+
+    __tablename__ = 'routes'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    name = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    section = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    color = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    grade = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    image_url = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    setter_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )
+
+    setter = db.relationship('User', backref='routes')
 
 def connect_db(app):
 

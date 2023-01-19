@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
 from models import db, connect_db, User
-from forms import UserAddForm, LoginForm
+from forms import UserAddForm, LoginForm, UpdateUserForm
 
 
 CURR_USER_KEY = "curr_user"
@@ -25,10 +25,10 @@ app.app_context().push()
 
 connect_db(app)
 
-# db.create_all()
+db.create_all()
 
 ##############################################################################
-#User/Admin signup/login/logout
+#User signup/login/logout
 
 @app.before_request
 def add_user_to_g():
@@ -123,3 +123,66 @@ def homepage():
 
     else: 
         return render_template("welcome.html")
+
+##############################################################################
+#Find/Add friends
+@app.route('/friends')
+def list_friends():
+    """Page with listing of users.
+
+    Can take a 'q' param in querystring to search by that username.
+    """
+
+    search = request.args.get('q')
+
+    if not search:
+        users = User.query.all()
+    else:
+        users = User.query.filter(User.username.like(f"%{search.lower()}%")).all()
+
+    return render_template('friends.html', users=users)
+
+##############################################################################
+#View/Edit profile
+
+@app.route('/profile')
+def view_profile():
+    """View user profile"""
+
+    user = User.query.get(session[CURR_USER_KEY])
+
+    return render_template('profile.html', user=user)
+
+@app.route('/profile/edit', methods=["GET", "POST"])
+def edit_profile():
+    """Edit profile"""
+    user = User.query.get(session[CURR_USER_KEY])
+    form = UpdateUserForm(obj=user)
+
+    if form.validate_on_submit():
+        user.username=form.username.data.lower(),
+        user.name=form.name.data,
+        user.image_url=form.image_url.data or User.image_url.default.arg,
+        user.bio=form.bio.data
+            
+        db.session.commit()
+
+        flash(f"Successfully updated {user.username}!", "success")
+        return redirect(f"/profile")
+
+    elif IntegrityError:
+        return render_template('edit.html', form=form)
+
+    else:
+        return render_template('edit.html', form=form)
+
+##############################################################################
+#View/Add/Remove/Update Routes
+
+@app.route('/routes')
+def routes():
+    return render_template('routes.html')
+
+@app.route('/update-routes')
+def update_routes():
+    return render_template('update-routes.html')
