@@ -50,7 +50,7 @@ class User(db.Model):
         nullable=False,
     )
 
-    routes = db.relationship('Route', backref='users')
+    routes = db.relationship('Route')
 
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
@@ -127,12 +127,39 @@ class Route(db.Model):
         nullable=False,
     )
 
+    holds = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    techniques = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
     setter_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id')
     )
 
-    setter = db.relationship('User', backref='routes')
+    @classmethod
+    def add_route(cls, name, section, color, grade, image_url, description, holds, techniques, setter_id):
+        """Add route to the system."""
+
+        route = Route(
+            name=name,
+            section=section, 
+            color=color,
+            grade=grade, 
+            image_url=image_url, 
+            description=description, 
+            holds=holds, 
+            techniques=techniques,
+            setter_id=setter_id,
+        )
+
+        db.session.add(route)
+        return route
 
 def connect_db(app):
 

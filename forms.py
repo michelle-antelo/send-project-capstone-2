@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, validators, ValidationError, RadioField
+from wtforms import StringField, PasswordField, TextAreaField, validators, ValidationError, RadioField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, Length
 
 class UserAddForm(FlaskForm):
@@ -26,3 +26,16 @@ class UpdateUserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     image_url = StringField('(Optional) Profile Image URL')
     bio = TextAreaField('Share a little about yourself')
+
+class AddRouteForm(FlaskForm):
+    """Form for adding routes."""
+
+    name = StringField('Route Name', validators=[DataRequired()])
+    section = StringField('Wall Section', validators=[DataRequired()])
+    color = StringField('Color', validators=[DataRequired()])
+    grade = StringField('Grade', validators=[DataRequired()])
+    image_url = StringField('Route Image URL', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    holds = SelectMultipleField("Holds", choices=['jugs', 'crimps', 'slopers', 'pinches', 'pockets'],validators=[DataRequired()])
+    techniques = SelectMultipleField("Techniques", choices=['heel hook', 'toe hook'],validators=[DataRequired()])
+

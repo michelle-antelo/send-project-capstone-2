@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, session, g, redirect, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
-from models import db, connect_db, User
-from forms import UserAddForm, LoginForm, UpdateUserForm
+from models import db, connect_db, User, Route
+from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm
 
 
 CURR_USER_KEY = "curr_user"
@@ -25,7 +25,7 @@ app.app_context().push()
 
 connect_db(app)
 
-db.create_all()
+# db.create_all()
 
 ##############################################################################
 #User signup/login/logout
@@ -145,7 +145,7 @@ def list_friends():
 ##############################################################################
 #View/Edit profile
 
-@app.route('/profile')
+@app.route('/profile', methods=["GET"])
 def view_profile():
     """View user profile"""
 
@@ -176,13 +176,61 @@ def edit_profile():
     else:
         return render_template('edit.html', form=form)
 
+@app.route('/delete-account/<int:user_id>')
+def delete_user(user_id):
+    """Delete route by ID"""
+
+    do_logout()
+
+    User.query.filter_by(id=user_id).delete()
+    db.session.commit()
+
+    return redirect('/')
+
+
 ##############################################################################
 #View/Add/Remove/Update Routes
 
-@app.route('/routes')
-def routes():
-    return render_template('routes.html')
+@app.route('/routes', methods=["GET"])
+def show_routes():
+    """Show all routes"""
 
-@app.route('/update-routes')
-def update_routes():
-    return render_template('update-routes.html')
+    routes = Route.query.all()
+
+    return render_template('routes.html', routes=routes)
+
+@app.route('/add-route', methods=["GET", "POST"])
+def add_route():
+    """Add route to the database"""
+
+    form = AddRouteForm()
+
+    if form.validate_on_submit():
+        route = Route.add_route(
+            name=form.name.data,
+            section=form.section.data,
+            color=form.color.data,
+            grade=form.grade.data,
+            image_url=form.image_url.data,
+            description=form.description.data,
+            holds=form.holds.data,
+            techniques=form.techniques.data,
+            setter_id=g.user.id,
+        )
+        
+        db.session.commit()
+        
+        return redirect('/routes')
+
+    else:
+        return render_template('add-route.html', form=form)
+
+
+@app.route('/delete-route/<int:route_id>', methods=["GET", "POST"])
+def delete_route(route_id):
+    """Delete route by ID"""
+
+    Route.query.filter_by(id=route_id).delete()
+    db.session.commit()
+
+    return redirect('/routes')

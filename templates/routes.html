@@ -3,7 +3,33 @@
 {% block title %} Routes {% endblock %}
 
 {% block content %}
-    <body>
-        <p>routes</p>
-    </body>
+    {% if g.user.user_type == 'setter' %}
+        <div>
+            <a href="/add-route">Add route</a>
+        </div>
+    {% endif %}
+    {% if routes|length == 0 %}
+        <h3>Sorry, no routes found...</h3>
+    {% else %}
+        <div>
+            {% for route in routes %}
+                <div>
+                    <div>
+                        <img class="route-image" src="{{ route.image_url }}" alt="{{ route.name }} image">
+                    </div>
+                    <div>
+                        <p>{{ route.name }}</p>
+                        <p>{{ route.description }}</p>
+                        <p>{{ route.holds }}</p>
+                        <p> {{ route.setter_id }} </p>
+                    </div>
+                    {% if g.user.user_type == 'setter' %}
+                        <div>
+                            <a href="/delete-route/{{ route.id }}">Remove Route</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
