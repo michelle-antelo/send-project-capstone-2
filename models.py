@@ -51,6 +51,7 @@ class User(db.Model):
     )
 
     routes = db.relationship('Route')
+    comments = db.relationship('Comment')
 
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
@@ -142,6 +143,8 @@ class Route(db.Model):
         db.ForeignKey('users.id')
     )
 
+    comments = db.relationship('Comment')
+
     @classmethod
     def add_route(cls, name, section, color, grade, image_url, description, holds, techniques, setter_id):
         """Add route to the system."""
@@ -160,6 +163,58 @@ class Route(db.Model):
 
         db.session.add(route)
         return route
+
+
+class Comment(db.Model):
+    """Comments in the system"""
+
+    __tablename__ = 'comments'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    route_id = db.Column(
+        db.Integer,
+        db.ForeignKey('routes.id')
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    rating = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    grade_rating = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    @classmethod
+    def add_comment(cls, route_id, user_id, description, rating, grade_rating):
+        """Add comment to the system."""
+
+        comment = Comment(
+            route_id=route_id,
+            user_id=user_id,
+            description=description,
+            rating=rating,
+            grade_rating=grade_rating,
+        )
+
+        db.session.add(comment)
+        return comment
+
 
 def connect_db(app):
 

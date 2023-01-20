@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, session, g, redirect, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
-from models import db, connect_db, User, Route
-from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm
+from models import db, connect_db, User, Route, Comment
+from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm
 
 
 CURR_USER_KEY = "curr_user"
@@ -25,7 +25,7 @@ app.app_context().push()
 
 connect_db(app)
 
-# db.create_all()
+db.create_all()
 
 ##############################################################################
 #User signup/login/logout
@@ -196,8 +196,23 @@ def show_routes():
     """Show all routes"""
 
     routes = Route.query.all()
+    all = User.query.all()
 
-    return render_template('routes.html', routes=routes)
+    setters = []
+
+    for setter in all:
+        setters.append(setter)
+
+    return render_template('routes.html', routes=routes, setters=setters)
+
+@app.route('/route/<int:route_id>', methods=["GET", "POST"])
+def show_selected_route(route_id):
+    """Show selected route."""
+
+    route = Route.query.get_or_404(route_id)
+    comments = Comment.query.filter_by(route_id=route_id)
+
+    return render_template('show-route.html', route=route, comments=comments)
 
 @app.route('/add-route', methods=["GET", "POST"])
 def add_route():
@@ -206,7 +221,7 @@ def add_route():
     form = AddRouteForm()
 
     if form.validate_on_submit():
-        route = Route.add_route(
+        Route.add_route(
             name=form.name.data,
             section=form.section.data,
             color=form.color.data,
@@ -234,3 +249,28 @@ def delete_route(route_id):
     db.session.commit()
 
     return redirect('/routes')
+
+##############################################################################
+#Add Comments to Routes
+
+@app.route('/add-comment/<int:id>', methods=["GET", "POST"])
+def add_comment(id):
+    """Add comment to route"""
+
+    form = AddCommmentForm()
+
+    if form.validate_on_submit():
+        Comment.add_comment(
+            route_id=id,
+            user_id=g.user.id,
+            description=form.description.data,
+            rating=form.rating.data,
+            grade_rating=form.grade_rating.data,
+        )
+        
+        db.session.commit()
+
+        return redirect(f'/route/{id}')
+
+    else: 
+        return render_template('add-comment.html', form=form)

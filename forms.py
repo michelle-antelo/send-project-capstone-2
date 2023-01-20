@@ -39,3 +39,10 @@ class AddRouteForm(FlaskForm):
     holds = SelectMultipleField("Holds", choices=['jugs', 'crimps', 'slopers', 'pinches', 'pockets'],validators=[DataRequired()])
     techniques = SelectMultipleField("Techniques", choices=['heel hook', 'toe hook'],validators=[DataRequired()])
 
+
+class AddCommmentForm(FlaskForm):
+    """Form for adding comments to routes"""
+
+    description = TextAreaField('Leave a Comment', validators=[DataRequired()])
+    rating = RadioField("Rate this route!", choices=['1','2','3','4','5','6','7','8','9','10'], validators=[DataRequired()])
+    grade_rating = TextAreaField("Route Grade Suggestion", validators=[DataRequired()])

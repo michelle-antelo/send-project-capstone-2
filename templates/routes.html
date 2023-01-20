@@ -22,6 +22,8 @@
                         <p>{{ route.description }}</p>
                         <p>{{ route.holds }}</p>
                         <p> {{ route.setter_id }} </p>
+                        <p> {{ setters[route.setter_id] }} </p>
+                        <a href="/route/{{ route.id }}">View more info!</a>
                     </div>
                     {% if g.user.user_type == 'setter' %}
                         <div>

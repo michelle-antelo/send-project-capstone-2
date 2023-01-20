@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <p>I am {{ route.name }} and I exist!</p>
+        <a href="/add-comment/{{ route.id }}">Add comment</a>
+    </div>
+    {% for comment in comments %}
+        <div>
+            <p>{{ comment.description }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
