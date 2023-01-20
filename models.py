@@ -50,8 +50,8 @@ class User(db.Model):
         nullable=False,
     )
 
-    routes = db.relationship('Route')
-    comments = db.relationship('Comment')
+    routes = db.relationship('Route', backref='user')
+    comments = db.relationship('Comment', backref='user')
 
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
@@ -143,7 +143,7 @@ class Route(db.Model):
         db.ForeignKey('users.id')
     )
 
-    comments = db.relationship('Comment')
+    comments = db.relationship('Comment', backref='route')
 
     @classmethod
     def add_route(cls, name, section, color, grade, image_url, description, holds, techniques, setter_id):
@@ -177,12 +177,12 @@ class Comment(db.Model):
 
     route_id = db.Column(
         db.Integer,
-        db.ForeignKey('routes.id')
+        db.ForeignKey('routes.id'),
     )
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id')
+        db.ForeignKey('users.id'),
     )
 
     description = db.Column(

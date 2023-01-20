@@ -196,12 +196,7 @@ def show_routes():
     """Show all routes"""
 
     routes = Route.query.all()
-    all = User.query.all()
-
-    setters = []
-
-    for setter in all:
-        setters.append(setter)
+    setters = User.query.all()
 
     return render_template('routes.html', routes=routes, setters=setters)
 
@@ -211,8 +206,9 @@ def show_selected_route(route_id):
 
     route = Route.query.get_or_404(route_id)
     comments = Comment.query.filter_by(route_id=route_id)
+    users = User.query.all()
 
-    return render_template('show-route.html', route=route, comments=comments)
+    return render_template('show-route.html', route=route, comments=comments, users=users)
 
 @app.route('/add-route', methods=["GET", "POST"])
 def add_route():

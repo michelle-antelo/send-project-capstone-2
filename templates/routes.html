@@ -21,8 +21,11 @@
                         <p>{{ route.name }}</p>
                         <p>{{ route.description }}</p>
                         <p>{{ route.holds }}</p>
-                        <p> {{ route.setter_id }} </p>
-                        <p> {{ setters[route.setter_id] }} </p>
+                        {% for setter in setters%}
+                            {% if setter.id == route.setter_id %}
+                                <p>{{ setter.name }}</p>
+                            {% endif %}
+                        {% endfor %}
                         <a href="/route/{{ route.id }}">View more info!</a>
                     </div>
                     {% if g.user.user_type == 'setter' %}

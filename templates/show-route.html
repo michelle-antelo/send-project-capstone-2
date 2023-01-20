@@ -7,6 +7,11 @@
     </div>
     {% for comment in comments %}
         <div>
+            {% for user in users %}
+                {% if user.id == comment.user_id %}
+                    <h1>{{ user.username }}</h1>
+                {% endif %}
+            {% endfor %}
             <p>{{ comment.description }}</p>
         </div>
     {% endfor %}
