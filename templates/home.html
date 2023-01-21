@@ -6,5 +6,12 @@
     <body>
         <p>Home page!</p>
         <a href="/logout">Logout</a>
+    {% for following in followings %}
+        {% for user in users %}
+            {% if user.id == following.following_user_id %}
+                <p>Following: {{ user.username }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
     </body>
 {% endblock %}

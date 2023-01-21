@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, session, g, redirect, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
-from models import db, connect_db, User, Route, Comment
+from models import db, connect_db, User, Route, Comment, Follower
 from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm
 
 
@@ -115,11 +115,15 @@ def logout():
 ##############################################################################
 #Render Homepage
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def homepage():
 
     if CURR_USER_KEY in session:
-        return render_template("home.html")
+
+        users = User.query.all()
+        followings = Follower.query.filter_by(follower_user_id=g.user.id)
+
+        return render_template("home.html", users=users, followings=followings)
 
     else: 
         return render_template("welcome.html")
@@ -142,6 +146,19 @@ def list_friends():
 
     return render_template('friends.html', users=users)
 
+
+@app.route('/add-friend/<int:user_id>')
+def add_friend(user_id):
+
+    follower_user_id = g.user.id
+    following_user_id= user_id
+
+    Follower.follow_user(follower_user_id, following_user_id)
+    
+    db.session.commit()
+
+    return redirect('/friends')
+
 ##############################################################################
 #View/Edit profile
 
@@ -152,6 +169,17 @@ def view_profile():
     user = User.query.get(session[CURR_USER_KEY])
 
     return render_template('profile.html', user=user)
+
+@app.route('/user/<int:user_id>', methods=["GET"])
+def show_user(user_id):
+    """Show selected user info"""
+
+    user = User.query.get_or_404(user_id)
+    following = Follower.query.filter_by(id=2)
+
+    print(following)
+
+    return render_template('show-user.html', user=user, following=following)
 
 @app.route('/profile/edit', methods=["GET", "POST"])
 def edit_profile():

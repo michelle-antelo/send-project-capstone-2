@@ -215,6 +215,38 @@ class Comment(db.Model):
         db.session.add(comment)
         return comment
 
+class Follower(db.Model):
+    """Followers following users in the system"""
+
+    __tablename__ = 'followers'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    follower_user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+    )
+
+    following_user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+    )
+
+    @classmethod
+    def follow_user(cls, follower_user_id, following_user_id):
+        """Follow user"""
+
+        follower = Follower(
+            follower_user_id=follower_user_id,
+            following_user_id=following_user_id,
+        )
+
+        db.session.add(follower)
+        return follower
+
 
 def connect_db(app):
 
