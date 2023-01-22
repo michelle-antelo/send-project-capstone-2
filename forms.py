@@ -46,3 +46,12 @@ class AddCommmentForm(FlaskForm):
     description = TextAreaField('Leave a Comment', validators=[DataRequired()])
     rating = RadioField("Rate this route!", choices=['1','2','3','4','5','6','7','8','9','10'], validators=[DataRequired()])
     grade_rating = TextAreaField("Route Grade Suggestion", validators=[DataRequired()])
+
+class AddPostForm(FlaskForm):
+    """Form for adding posts"""
+
+    caption = TextAreaField('Title', validators=[DataRequired()])
+    description = TextAreaField("Post", validators=[DataRequired()])
+    image_url = StringField("Image URL")
+    video_url = StringField("Video URL")
+

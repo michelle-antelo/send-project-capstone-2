@@ -3,9 +3,11 @@
 {% block content %}
     <div>
         <p>I am {{ user.name }} and I exist!</p>
-            {% if following.follower_user_id == g.user.id %}
-            <a href="/unfollow/{{ user.id }}">Unfollow</a>
-            <p>I am in the database!!</p>
-            {% endif %}
+            <a href="/follow/{{ user.id }}">Follow</a>
+            {% for following in followings %}
+                {% if following.follower_user_id == g.user.id %}
+                <a href="/unfollow/{{ user.id }}">Unfollow</a>
+                {% endif %}
+            {% endfor %}
     </div>
 {% endblock %}

@@ -52,6 +52,9 @@ class User(db.Model):
 
     routes = db.relationship('Route', backref='user')
     comments = db.relationship('Comment', backref='user')
+    posts = db.relationship('Post', backref='user')
+    # post_comments = db.relationship('Postcomment', backref='user')
+    # likes = db.relationship('Like', backref='user')
 
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
@@ -164,7 +167,6 @@ class Route(db.Model):
         db.session.add(route)
         return route
 
-
 class Comment(db.Model):
     """Comments in the system"""
 
@@ -246,6 +248,102 @@ class Follower(db.Model):
 
         db.session.add(follower)
         return follower
+
+class Post(db.Model):
+    """Posts by users in the system"""
+
+    __tablename__ = 'posts'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+    )
+
+    caption = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False,
+    )
+
+    image_url = db.Column(
+        db.Text,
+    )
+
+    video_url = db.Column(
+        db.Text,
+    )
+
+    # likes = db.relationship('Like', backref='post')
+    # comments = db.relationship('PostComment', backref='post')
+
+    @classmethod
+    def add_post(cls, user_id, caption, description, image_url, video_url):
+        """Add post to the system."""
+
+        post = Post(
+            user_id=user_id,
+            caption=caption,
+            description=description,
+            image_url=image_url,
+            video_url=video_url,
+        )
+
+        db.session.add(post)
+        return post
+
+# class Postcomment(db.Model):
+#     """Comment on posts in the system"""
+
+#     __tablename__ = 'post_comments'
+
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True,
+#     )
+
+#     user_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('user.id'),
+#     )
+
+#     post_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('posts.id'),
+#     )
+
+#     description = db.Column(
+#         db.Text,
+#         nullable=False,
+#     )
+
+# class Like(db.Model):
+#     """Likes on posts in the system"""
+
+#     __tablename__ = 'likes'
+
+#     id = db.Column(
+#         db.Integer,
+#         primary_key=True,
+#     )
+
+#     user_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('users.id'),
+#     )
+
+#     post_id = db.Column(
+#         db.Integer,
+#         db.ForeignKey('posts.id'),
+#     )
 
 
 def connect_db(app):

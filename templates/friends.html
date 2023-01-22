@@ -10,16 +10,18 @@
   {% else %}
     <div class="users-div">
       {% for user in users %}
-        <div class="card-contents">
-          <div class="image-wrapper">
-            <img class="user-image" src="{{ user.image_url }}" alt="profile picture for {{ user.username }}">
+        {% if user.id != g.user.id%}
+          <div class="card-contents">
+            <div class="image-wrapper">
+              <img class="user-image" src="{{ user.image_url }}" alt="profile picture for {{ user.username }}">
+            </div>
+            <div class="content-wrapper">
+              <p class="user-name">{{ user.name }}</p>
+              <a href="/user/{{ user.id }}" class="card-link">@{{ user.username }}</a>
+              <p class="user-bio">{{ user.bio }}</p>
+            </div>
           </div>
-          <div class="content-wrapper">
-            <p class="user-name">{{ user.name }}</p>
-            <a href="/user/{{ user.id }}" class="card-link">@{{ user.username }}</a>
-            <p class="user-bio">{{ user.bio }}</p>
-          </div>
-        </div>
+        {% endif %}
       {% endfor %}
     </div>
   {% endif %}

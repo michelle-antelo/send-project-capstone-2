@@ -1,11 +1,11 @@
 import os
 
-from flask import Flask, render_template, request, session, g, redirect, jsonify, flash
+from flask import Flask, render_template, request, session, g, redirect, jsonify, flash, json
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
-from models import db, connect_db, User, Route, Comment, Follower
-from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm
+from models import db, connect_db, User, Route, Comment, Follower, Post
+from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm, AddPostForm
 
 
 CURR_USER_KEY = "curr_user"
@@ -122,8 +122,9 @@ def homepage():
 
         users = User.query.all()
         followings = Follower.query.filter_by(follower_user_id=g.user.id)
+        posts = Post.query.all()
 
-        return render_template("home.html", users=users, followings=followings)
+        return render_template("home.html", users=users, followings=followings, posts=posts)
 
     else: 
         return render_template("welcome.html")
@@ -147,8 +148,8 @@ def list_friends():
     return render_template('friends.html', users=users)
 
 
-@app.route('/add-friend/<int:user_id>')
-def add_friend(user_id):
+@app.route('/follow/<int:user_id>')
+def follow(user_id):
 
     follower_user_id = g.user.id
     following_user_id= user_id
@@ -157,7 +158,15 @@ def add_friend(user_id):
     
     db.session.commit()
 
-    return redirect('/friends')
+    return redirect(f'/user/{user_id}')
+
+@app.route('/unfollow/<int:user_id>')
+def unfollow(user_id):
+    
+    Follower.query.filter_by(following_user_id=user_id).delete()
+    db.session.commit()
+
+    return redirect(f'/user/{user_id}')
 
 ##############################################################################
 #View/Edit profile
@@ -175,11 +184,9 @@ def show_user(user_id):
     """Show selected user info"""
 
     user = User.query.get_or_404(user_id)
-    following = Follower.query.filter_by(id=2)
+    followings = Follower.query.filter_by(following_user_id=user_id)
 
-    print(following)
-
-    return render_template('show-user.html', user=user, following=following)
+    return render_template('show-user.html', user=user, followings=followings)
 
 @app.route('/profile/edit', methods=["GET", "POST"])
 def edit_profile():
@@ -298,3 +305,28 @@ def add_comment(id):
 
     else: 
         return render_template('add-comment.html', form=form)
+
+##############################################################################
+#Posts create/delete/likes/comments
+
+@app.route('/create-post', methods=["GET", "POST"])
+def create_post():
+    """Create post"""
+
+    form = AddPostForm()
+
+    if form.validate_on_submit():
+        Post.add_post(
+            user_id=g.user.id,
+            caption=form.caption.data,
+            description=form.description.data,
+            image_url=form.image_url.data,
+            video_url=form.video_url.data,
+        )
+        
+        db.session.commit()
+
+        return redirect('/')
+
+    else:
+        return render_template('create-post.html', form=form)

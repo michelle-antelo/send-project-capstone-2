@@ -5,13 +5,17 @@
 {% block content %}
     <body>
         <p>Home page!</p>
-        <a href="/logout">Logout</a>
+        <a href="/create-post">Create post!</a>
     {% for following in followings %}
         {% for user in users %}
             {% if user.id == following.following_user_id %}
                 <p>Following: {{ user.username }}</p>
+                <a href="/user/{{ user.id }}">View more info!</a>
             {% endif %}
         {% endfor %}
+    {% endfor %}
+    {% for post in posts %}
+        <p>{{ post.caption }}</p>
     {% endfor %}
     </body>
 {% endblock %}
