@@ -6,6 +6,7 @@
     <body>
         <p>Home page!</p>
         <a href="/create-post">Create post!</a>
+        <img src="https://www.linkpicture.com/q/free-climbing-wall-vector.png"/>
     {% for following in followings %}
         {% for user in users %}
             {% if user.id == following.following_user_id %}
@@ -16,16 +17,16 @@
     {% endfor %}
     {% for post in posts %}
         <p>{{ post.caption }}</p>
-        <a href="/like-post/{{ post.id }}">Like</a>
-        <a href="/post/add-comment/{{ post.id }}">Add comment</a>
-        {% for like in likes %}
-            {% if post.id == like.post_id and like.like == True %}
-                <a href="/unlike-post/{{ post.id }}">Unlike</a>
-            {% endif %}
-        {% endfor %}
         {% for comment in comments %}
             {% if comment.post_id == post.id %}
                 <p>{{ comment.description }}</p>
+            {% endif %}
+        {% endfor %}
+        <a href="/like-post/{{ post.id }}">Like</a>
+        <a href="/add-post-comment/{{ post.id }}">Add comment</a>
+        {% for like in likes %}
+            {% if post.id == like.post_id and like.like == True %}
+                <a href="/unlike-post/{{ post.id }}">Unlike</a>
             {% endif %}
         {% endfor %}
     {% endfor %}

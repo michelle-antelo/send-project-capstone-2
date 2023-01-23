@@ -45,13 +45,11 @@ def do_login(user):
 
     session[CURR_USER_KEY] = user.id
 
-
 def do_logout():
     """Logout user."""
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
-
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -75,7 +73,7 @@ def signup():
 
         except IntegrityError:
             flash("Username already taken", 'danger')
-            return render_template('signup.html', form=form)
+            return render_template('users/signup.html', form=form)
 
         do_login(user)
 
@@ -83,7 +81,7 @@ def signup():
         return redirect("/")
 
     else:
-        return render_template('signup.html', form=form)
+        return render_template('users/signup.html', form=form)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -101,7 +99,7 @@ def login():
 
         flash("Invalid credentials.", 'danger')
 
-    return render_template('login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -146,7 +144,7 @@ def list_friends():
     else:
         users = User.query.filter(User.username.like(f"%{search.lower()}%")).all()
 
-    return render_template('friends.html', users=users)
+    return render_template('users/friends.html', users=users)
 
 
 @app.route('/follow/<int:user_id>')
@@ -178,7 +176,7 @@ def view_profile():
 
     user = User.query.get(session[CURR_USER_KEY])
 
-    return render_template('profile.html', user=user)
+    return render_template('users/profile.html', user=user)
 
 @app.route('/user/<int:user_id>', methods=["GET"])
 def show_user(user_id):
@@ -187,7 +185,7 @@ def show_user(user_id):
     user = User.query.get_or_404(user_id)
     followings = Follower.query.filter_by(following_user_id=user_id)
 
-    return render_template('show-user.html', user=user, followings=followings)
+    return render_template('users/show-user.html', user=user, followings=followings)
 
 @app.route('/profile/edit', methods=["GET", "POST"])
 def edit_profile():
@@ -207,10 +205,10 @@ def edit_profile():
         return redirect(f"/profile")
 
     elif IntegrityError:
-        return render_template('edit.html', form=form)
+        return render_template('users/edit.html', form=form)
 
     else:
-        return render_template('edit.html', form=form)
+        return render_template('users/edit.html', form=form)
 
 @app.route('/delete-account/<int:user_id>')
 def delete_user(user_id):
@@ -234,7 +232,7 @@ def show_routes():
     routes = Route.query.all()
     setters = User.query.all()
 
-    return render_template('routes.html', routes=routes, setters=setters)
+    return render_template('routes/routes.html', routes=routes, setters=setters)
 
 @app.route('/route/<int:route_id>', methods=["GET", "POST"])
 def show_selected_route(route_id):
@@ -244,7 +242,7 @@ def show_selected_route(route_id):
     comments = Comment.query.filter_by(route_id=route_id)
     users = User.query.all()
 
-    return render_template('show-route.html', route=route, comments=comments, users=users)
+    return render_template('routes/show-route.html', route=route, comments=comments, users=users)
 
 @app.route('/add-route', methods=["GET", "POST"])
 def add_route():
@@ -270,7 +268,7 @@ def add_route():
         return redirect('/routes')
 
     else:
-        return render_template('add-route.html', form=form)
+        return render_template('routes/add-route.html', form=form)
 
 
 @app.route('/delete-route/<int:route_id>', methods=["GET", "POST"])
@@ -305,7 +303,7 @@ def add_comment(id):
         return redirect(f'/route/{id}')
 
     else: 
-        return render_template('add-comment.html', form=form)
+        return render_template('routes/add-comment.html', form=form)
 
 ##############################################################################
 #Posts create/delete/likes/comments
@@ -330,7 +328,7 @@ def create_post():
         return redirect('/')
 
     else:
-        return render_template('create-post.html', form=form)
+        return render_template('posts/create-post.html', form=form)
 
 
 @app.route('/like-post/<int:post_id>', methods=["GET", "POST"])
@@ -357,7 +355,7 @@ def unlike_post(post_id):
 
     return redirect('/')
 
-@app.route('/post/add-comment/<int:post_id>', methods=["GET", "POST"])
+@app.route('/add-post-comment/<int:post_id>', methods=["GET", "POST"])
 def add_post_comment(post_id):
     """Add comment to post"""
 
@@ -375,4 +373,4 @@ def add_post_comment(post_id):
         return redirect('/')
 
     else: 
-        return render_template('add-post-comment.html', form=form)
+        return render_template('posts/add-post-comment.html', form=form)
