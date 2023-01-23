@@ -55,3 +55,8 @@ class AddPostForm(FlaskForm):
     image_url = StringField("Image URL")
     video_url = StringField("Video URL")
 
+class AddPostCommentForm(FlaskForm):
+    """Form for adding comments to user posts"""
+
+    description = TextAreaField('Comment', validators=[DataRequired()])
+

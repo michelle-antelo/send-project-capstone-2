@@ -53,8 +53,8 @@ class User(db.Model):
     routes = db.relationship('Route', backref='user')
     comments = db.relationship('Comment', backref='user')
     posts = db.relationship('Post', backref='user')
-    # post_comments = db.relationship('Postcomment', backref='user')
-    # likes = db.relationship('Like', backref='user')
+    post_comments = db.relationship('PostComment', backref='user')
+    likes = db.relationship('Like', backref='user')
 
     @classmethod
     def signup(cls, username, name, email, password, image_url, bio, user_type):
@@ -282,8 +282,8 @@ class Post(db.Model):
         db.Text,
     )
 
-    # likes = db.relationship('Like', backref='post')
-    # comments = db.relationship('PostComment', backref='post')
+    likes = db.relationship('Like', backref='post')
+    comments = db.relationship('PostComment', backref='post')
 
     @classmethod
     def add_post(cls, user_id, caption, description, image_url, video_url):
@@ -300,50 +300,81 @@ class Post(db.Model):
         db.session.add(post)
         return post
 
-# class Postcomment(db.Model):
-#     """Comment on posts in the system"""
+class PostComment(db.Model):
+    """Comment on posts in the system"""
 
-#     __tablename__ = 'post_comments'
+    __tablename__ = 'post_comments'
 
-#     id = db.Column(
-#         db.Integer,
-#         primary_key=True,
-#     )
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
 
-#     user_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('user.id'),
-#     )
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+    )
 
-#     post_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('posts.id'),
-#     )
+    post_id = db.Column(
+        db.Integer,
+        db.ForeignKey('posts.id'),
+    )
 
-#     description = db.Column(
-#         db.Text,
-#         nullable=False,
-#     )
+    description = db.Column(
+        db.Text,
+        nullable=False,
+    )
 
-# class Like(db.Model):
-#     """Likes on posts in the system"""
+    @classmethod
+    def add_post_comment(cls, post_id, user_id, description):
+        """Add comment to a post."""
 
-#     __tablename__ = 'likes'
+        comment = PostComment(
+            post_id=post_id,
+            user_id=user_id,
+            description=description,
+        )
 
-#     id = db.Column(
-#         db.Integer,
-#         primary_key=True,
-#     )
+        db.session.add(comment)
+        return comment
 
-#     user_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('users.id'),
-#     )
+class Like(db.Model):
+    """Likes on posts in the system"""
 
-#     post_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey('posts.id'),
-#     )
+    __tablename__ = 'likes'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    like = db.Column(
+        db.Boolean,
+        default=False,
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+    )
+
+    post_id = db.Column(
+        db.Integer,
+        db.ForeignKey('posts.id'),
+    )
+
+    @classmethod
+    def like_post(cls, like, user_id, post_id):
+        """Add post to the system."""
+
+        like = Like(
+            user_id=user_id,
+            like=like,
+            post_id=post_id,
+        )
+
+        db.session.add(like)
+        return like
 
 
 def connect_db(app):

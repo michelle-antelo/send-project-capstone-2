@@ -16,6 +16,18 @@
     {% endfor %}
     {% for post in posts %}
         <p>{{ post.caption }}</p>
+        <a href="/like-post/{{ post.id }}">Like</a>
+        <a href="/post/add-comment/{{ post.id }}">Add comment</a>
+        {% for like in likes %}
+            {% if post.id == like.post_id and like.like == True %}
+                <a href="/unlike-post/{{ post.id }}">Unlike</a>
+            {% endif %}
+        {% endfor %}
+        {% for comment in comments %}
+            {% if comment.post_id == post.id %}
+                <p>{{ comment.description }}</p>
+            {% endif %}
+        {% endfor %}
     {% endfor %}
     </body>
 {% endblock %}

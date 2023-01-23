@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, session, g, redirect, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_restful import Api, Resource
 
-from models import db, connect_db, User, Route, Comment, Follower, Post
-from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm, AddPostForm
+from models import db, connect_db, User, Route, Comment, Follower, Post, Like, PostComment
+from forms import UserAddForm, LoginForm, UpdateUserForm, AddRouteForm, AddCommmentForm, AddPostForm, AddPostCommentForm
 
 
 CURR_USER_KEY = "curr_user"
@@ -109,7 +109,6 @@ def logout():
 
     do_logout()
 
-    flash("Successfully logged out!", "success")
     return redirect("/")
 
 ##############################################################################
@@ -123,8 +122,10 @@ def homepage():
         users = User.query.all()
         followings = Follower.query.filter_by(follower_user_id=g.user.id)
         posts = Post.query.all()
+        likes = Like.query.all()
+        comments = PostComment.query.all()
 
-        return render_template("home.html", users=users, followings=followings, posts=posts)
+        return render_template("home.html", users=users, followings=followings, posts=posts, likes=likes, comments=comments)
 
     else: 
         return render_template("welcome.html")
@@ -330,3 +331,48 @@ def create_post():
 
     else:
         return render_template('create-post.html', form=form)
+
+
+@app.route('/like-post/<int:post_id>', methods=["GET", "POST"])
+def like_post(post_id):
+    """Like post"""
+
+    Like.like_post(
+        user_id=g.user.id,
+        post_id=post_id,
+        like=True,
+    )
+
+    db.session.commit()
+
+    return redirect('/')
+
+
+@app.route('/unlike-post/<int:post_id>', methods=["GET", "POST"])
+def unlike_post(post_id):
+    """Unlike post"""
+
+    liked_post = Like.query.filter_by(post_id=post_id).delete()
+    db.session.commit()
+
+    return redirect('/')
+
+@app.route('/post/add-comment/<int:post_id>', methods=["GET", "POST"])
+def add_post_comment(post_id):
+    """Add comment to post"""
+
+    form = AddPostCommentForm()
+
+    if form.validate_on_submit():
+        PostComment.add_post_comment(
+            post_id=post_id,
+            user_id=g.user.id,
+            description=form.description.data,
+        )
+        
+        db.session.commit()
+
+        return redirect('/')
+
+    else: 
+        return render_template('add-post-comment.html', form=form)
