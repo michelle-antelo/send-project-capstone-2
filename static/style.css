@@ -19,7 +19,7 @@ html, body {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: rgb(43, 142, 172)
+    background-color: rgb(52, 187, 228)
 }
 
 .site-logo{
@@ -39,6 +39,8 @@ html, body {
     width: 99%;
     display: flex;
     justify-content: right;
+    font-weight: 700;
+    text-shadow: rgb(147, 147, 147) 1px 1px;
 }
 
 .nav-button{
@@ -46,7 +48,6 @@ html, body {
     margin: 10px;
     height: 100%;
     display: inline-grid;
-
 }
 
 .nav-button > a {
@@ -62,17 +63,27 @@ html, body {
     top: -2px;
 }
 
-.nav-search-wrapper {
-    display: grid;
+.user-nav-button{
+    position: relative;
+    margin: 10px;
+    height: 100%;
+    display: inline-grid;
+    
 }
 
-.nav-search{
-    width: 100%;
-    border-radius: 10px;
-    margin: auto;
-    display: block;
-    border-color: transparent;
-    justify-self: center;
+.user-button{
+    position: relative;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: large;
+    line-height: 25px;
+    height: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.user-button:hover{
+    top: -2px;
 }
 
 .flash-container{

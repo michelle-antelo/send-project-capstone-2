@@ -5,34 +5,50 @@
 {% block content %}
     <div class="home-container">
         <div class="home-header">
+            <h1 class="header">Check out what your friends are up to!</h1>
         </div>
-        <div class="home-body">
-            <div class="button-container">
-                <a class="create-post-button" href="/create-post">Create post!</a>
-            </div>
+        <div class="button-container">
+            <a class="create-post-button" href="/create-post">Create post!</a>
         </div>
-    {% for following in followings %}
-        {% for user in users %}
-            {% if user.id == following.following_user_id %}
-                <p>Following: {{ user.username }}</p>
-                <a href="/user/{{ user.id }}">View more info!</a>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
-    {% for post in posts %}
-        <p>{{ post.caption }}</p>
-        {% for comment in comments %}
-            {% if comment.post_id == post.id %}
-                <p>{{ comment.description }}</p>
-            {% endif %}
-        {% endfor %}
-        <a href="/like-post/{{ post.id }}">Like</a>
-        <a href="/add-post-comment/{{ post.id }}">Add comment</a>
-        {% for like in likes %}
-            {% if post.id == like.post_id and like.like == True %}
-                <a href="/unlike-post/{{ post.id }}">Unlike</a>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
+        <div class="following-posts-container">
+            {% for following in followings %}
+                {% for user in users %}
+                    {% if user.id == following.following_user_id %}
+                    <div class="posts-container">
+                        {% for post in posts %}
+                            {% if user.id == post.user_id %}
+                            <div class="post-wrapper">
+                                <div class="user-profile-image">
+                                    <img src="{{ user.image_url }}" alt="profile picture for {{ user.username }}"/>
+                                </div>
+                                <div class="user-username">
+                                    <a href="/user/{{ user.id }}">{{ user.username }}</a>
+                                </div>
+                                <div class="post-contents">
+                                    <div class="post-caption-wrapper"><h1>{{ post.caption }}</h1></div>
+                                    <div class="post-name-wrapper"><h1>{{ user.name }} says...</h1></div>
+                                    <div class="post-description-wrapper"><p>{{ post.description }}</p></div>
+                                    <div class="post-image-wrapper"><img src="{{ post.image_url }}" alt="image for {{ post.caption }}"/></div>
+                                    <div class="post-video-wrapper"><p>video url: {{ post.video_url }}</p></div>
+                                </div>
+                                <div class="post-comments-container">
+                                    {% for comment in comments %}
+                                        {% for commenter in users %}
+                                            {% if post.id == comment.post_id and commenter.id == comment.user_id %}
+                                                <div class="post-comment-wrapper">
+                                                    <p class="comment">{{ commenter.username }} says: {{ comment.description }}</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
