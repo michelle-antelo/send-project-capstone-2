@@ -5,24 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="../static/signup-login.css">
 </head>
 {% block content %}
-    <div>
-        <h2>Welcome back!</h2>
-        <form method="POST" id="user_form">
-            {{ form.hidden_tag() }}
-
-            {% for field in form if field.widget.input_type != 'hidden' %}
-            {% for error in field.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-            <div class="form-field">
+  <div class="flash-container">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  <div class="container">
+    <h1 class="login-header-title">Login!</h1>
+    <div class="form-container">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+  
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          <div class="form-field">
             {{ field(placeholder=field.label.text, class="form-control") }}
-            </div>
-            {% endfor %}
-
-            <button class="form-button">Log in</button>
-        </form>
+          </div>
+        {% endfor %}
+        <div class="button-container">
+          <button class="form-button">login</button>
+        </div>
+      </form>
     </div>
+  </div>
 {% endblock %}
 </html>

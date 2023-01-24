@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Project {% block title %} {% endblock %}</title>
+    <title>Send Project{% block title %} {% endblock %}</title>
     
     <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/home.css">
 </head>
 {% block body %}
     <nav class="nav-bar">
@@ -26,7 +27,6 @@
         <div class="alert-{{ category }}">{{ message }}</div>
         {% endfor %}
     </div>
-    
     {% block content %}{% endblock %}
 {% endblock %}
 </html>

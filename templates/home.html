@@ -3,10 +3,14 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-    <body>
-        <p>Home page!</p>
-        <a href="/create-post">Create post!</a>
-        <img src="https://www.linkpicture.com/q/free-climbing-wall-vector.png"/>
+    <div class="home-container">
+        <div class="home-header">
+        </div>
+        <div class="home-body">
+            <div class="button-container">
+                <a class="create-post-button" href="/create-post">Create post!</a>
+            </div>
+        </div>
     {% for following in followings %}
         {% for user in users %}
             {% if user.id == following.following_user_id %}
@@ -30,5 +34,5 @@
             {% endif %}
         {% endfor %}
     {% endfor %}
-    </body>
+    </div>
 {% endblock %}

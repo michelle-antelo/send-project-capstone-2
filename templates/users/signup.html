@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/signup-login.css">
 </head>
 {% block content %}
   <div class="flash-container">
@@ -13,23 +14,28 @@
     <div class="alert-{{ category }}">{{ message }}</div>
     {% endfor %}
   </div>
-  <div>
-    <h1>Welcome!</h1>
-    <form method="POST">
-      {{ form.hidden_tag() }}
-
-      {% for field in form if field.widget.input_type != 'hidden' %}
-        {% for error in field.errors %}
+  <div class="container">
+    <h1 class="signup-header-title">Sign Up!</h1>
+    <div class="form-container">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+  
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
           <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          <div class="form-field">
+            {{ field(placeholder=field.label.text, class="form-control") }}
+          </div>
         {% endfor %}
-        <div class="form-field">
-          {{ field(placeholder=field.label.text, class="form-control") }}
+        <div class="button-container">
+          <button class="form-button">create account</button>
         </div>
-      {% endfor %}
-
-      <button class="form-button">Create account!</button>
-    </form>
-    <a href="/login">Already a user? Click here to login!</a>
+        <div class="redirect-container">
+          <a class="redirect" href="/login">Already a user? Click here to login!</a>
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}
 </html>

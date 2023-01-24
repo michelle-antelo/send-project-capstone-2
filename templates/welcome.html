@@ -5,10 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <link rel="stylesheet" href="../static/welcome.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 {% block body %}
-    <div>
-        <p1>Are you a <a href="/signup">climber</a> or a <a href="/signup">setter</a>?</p1>
+    <div class="flash-container">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <h1 class="wrapper" >Are you a <a class="link" href="/signup">climber</a> or a <a class="link" href="/signup">setter</a>?</h1>
+        <!-- <p class="action-statement">select climber or setter</p> -->
     </div>
 {% endblock %}
 </html>

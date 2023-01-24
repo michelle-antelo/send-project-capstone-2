@@ -1,0 +1,115 @@
+html, body {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    top: 0;
+    left: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.container{
+    text-align: center;
+    color: white;
+    background-image: url("https://www.linkpicture.com/q/Climbing-Background-1.png");
+    background-repeat:repeat-y;
+    background-size:contain;
+    height:2000px;
+}
+
+.signup-header-title{
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 80px;
+    padding-bottom: 40px;
+    font-size: 40px;
+    font-weight: 800;
+    text-shadow: rgb(147, 147, 147) 3px 3px;
+
+}
+
+.login-header-title{
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 120px;
+    padding-bottom: 60px;
+    font-size: 40px;
+    font-weight: 800;
+    text-shadow: rgb(147, 147, 147) 3px 3px;
+
+}
+
+.form-control{
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 45%;
+    border-color: transparent;
+    text-align: center;
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input{
+    opacity: 75%;
+}
+
+textarea{
+    opacity: 75%;
+    height: 60px;
+}
+
+ul li{
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    display: inline;
+    padding: 15px;
+    text-shadow: rgb(147, 147, 147) 1px 1px;
+}
+
+ul li:hover{
+    color: rgb(137, 228, 255);
+    text-shadow: rgb(30, 184, 230) 1px 1px;
+}
+
+input[type="radio"]:checked+label{
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+}
+
+.form-button{
+    margin-top: 7px;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    background-color: rgb(52, 204, 250, .98);
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 10px;
+    width: 45%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: rgb(181, 180, 180) 1px 1px;
+}
+
+.form-button:hover{
+    background-color: rgb(137, 228, 255);
+}
+
+.redirect{
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    text-shadow: rgb(181, 180, 180) 1px 1px;
+}
+
+.redirect:hover{
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+}
