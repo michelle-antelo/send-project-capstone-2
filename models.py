@@ -126,17 +126,11 @@ class Route(db.Model):
         nullable=False,
     )
 
+    beta_video_url = db.Column(
+        db.Text,
+    )
+
     description = db.Column(
-        db.Text,
-        nullable=False,
-    )
-
-    holds = db.Column(
-        db.Text,
-        nullable=False,
-    )
-
-    techniques = db.Column(
         db.Text,
         nullable=False,
     )
@@ -149,7 +143,7 @@ class Route(db.Model):
     comments = db.relationship('Comment', backref='route')
 
     @classmethod
-    def add_route(cls, name, section, color, grade, image_url, description, holds, techniques, setter_id):
+    def add_route(cls, name, section, color, grade, image_url, beta_video_url , description, setter_id):
         """Add route to the system."""
 
         route = Route(
@@ -159,8 +153,7 @@ class Route(db.Model):
             grade=grade, 
             image_url=image_url, 
             description=description, 
-            holds=holds, 
-            techniques=techniques,
+            beta_video_url=beta_video_url,
             setter_id=setter_id,
         )
 
@@ -280,6 +273,11 @@ class Post(db.Model):
 
     video_url = db.Column(
         db.Text,
+    )
+
+    total_likes= db.Column(
+        db.Integer,
+        default=0,
     )
 
     likes = db.relationship('Like', backref='post')

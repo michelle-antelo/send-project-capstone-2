@@ -3,12 +3,75 @@
 {% block title %} Profile {% endblock %}
 
 {% block content %}
+    <div class="home-container">
+        <div class="home-header">
+            <h1 class="header">{{ curr_user.username }}</h1>
+        </div>
+        <div class="following-posts-container">
+            <div class="posts-container">
+                {% for post in posts %}
+                    <div class="post-container">
+                        <div class="user-profile-image">
+                            <img class="user-image" src="{{ curr_user.image_url }}" alt="profile picture for {{ curr_user.username }}"/>
+                        </div>
+                        <div class="post-title">
+                            <div class="post-caption-wrapper"><h1>{{ post.caption }}</h1></div>
+                        </div>
+                        <div class="post-wrapper">
+                            <div class="post-contents">
+                                <a href="/user/{{ curr_user.id }}">@{{ curr_user.username }} </a>
+                                <div class="post-description-wrapper"><p>{{ post.description }}</p></div>
+                                {% if post.image_url %}
+                                    <div class="post-image-wrapper"><img src="{{ post.image_url }}" alt="image for {{ post.caption }}"/></div>
+                                {% endif %}
+                                {% if post.video_url %}
+                                    <div class="post-video-wrapper"><p>video url: {{ post.video_url }}</p></div>
+                                {% endif %}
+                                <div class="post-actions">
+                                    {% if post.total_likes > 0 %}
+                                        <a class="post-actions-links">{{ post.total_likes }} user{% if post.total_likes > 1 %}s{% endif%} like{% if post.total_likes == 1 %}s{% endif%} this</a>
+                                    {% endif %}
+                                    {% if likes|length == 0 %}
+                                        <a class="post-actions-links" href="/like-post/{{ post.id }}">Like this!</a>
+                                    {% endif %}
+                                    {% for like in likes %}
+                                        {% if like.post_id == post.id and like.user_id == g.user.id %}
+                                            <a class="post-actions-links" href="/unlike-post/{{ post.id }}">Unlike</a>
+                                        {% else %}
+                                            <a class="post-actions-links" href="/like-post/{{ post.id }}">Like this!</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a class="post-actions-links" href="/add-post-comment/{{ post.id }}">Leave a comment!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        {% if comments|length > 0 %}
+                            <div class="post-comments-container">
+                                {% for comment in comments %}
+                                    {% for commenter in users %}
+                                        {% if post.id == comment.post_id and commenter.id == comment.user_id %}
+                                            <div class="post-comment-wrapper">
+                                                <div class="commenter-image-wrapper">
+                                                    <img class="commenter-image" src="{{ commenter.image_url }}" alt="picture for {{ commenter.username }}"/>
+                                                </div>
+                                                <p class="comment"><a href="/user/{{ commenter.id }}">@{{ commenter.username }}</a> - {{ comment.description }}</p>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
     <div>
-        <h1>{{ user.username }}</h1>
-        <p1>{{ user.name }}</p1>
-        <img src="{{ user.image_url }}"/>     
-        <p1>{{ user.user_type }}</p1>
-        <p1>{{ user.bio }}</p1>
+        <h1>{{ curr_user.username }}</h1>
+        <p1>{{ curr_user.name }}</p1>
+        <img src="{{ curr_user.image_url }}"/>     
+        <p1>{{ curr_user.user_type }}</p1>
+        <p1>{{ curr_user.bio }}</p1>
         <a href='/logout'>Logout</a>
         <a href="/profile/edit">Edit Profile</a>
     </div>

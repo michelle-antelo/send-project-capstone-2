@@ -175,18 +175,26 @@ def unfollow(user_id):
 def view_profile():
     """View user profile"""
 
-    user = User.query.get(session[CURR_USER_KEY])
+    curr_user = User.query.get(session[CURR_USER_KEY])
 
-    return render_template('users/profile.html', user=user)
+    return render_template('users/profile.html', curr_user=curr_user)
 
 @app.route('/user/<int:user_id>', methods=["GET"])
 def show_user(user_id):
     """Show selected user info"""
 
-    user = User.query.get_or_404(user_id)
-    followings = Follower.query.filter_by(following_user_id=user_id)
+    if user_id == g.user.id:
+        return redirect('/profile')
 
-    return render_template('users/show-user.html', user=user, followings=followings)
+    else:
+        curr_user = User.query.get_or_404(user_id)
+        users = User.query.all()
+        followings = Follower.query.all()
+        posts = Post.query.filter_by(user_id=user_id)
+        likes = Like.query.all()
+        comments = PostComment.query.all()
+
+        return render_template('users/show-user.html', curr_user=curr_user, users=users, followings=followings, posts=posts, likes=likes, comments=comments)
 
 @app.route('/profile/edit', methods=["GET", "POST"])
 def edit_profile():
@@ -232,8 +240,9 @@ def show_routes():
 
     routes = Route.query.all()
     setters = User.query.all()
+    comments = Comment.query.all()
 
-    return render_template('routes/routes.html', routes=routes, setters=setters)
+    return render_template('routes/routes.html', routes=routes, setters=setters, comments=comments)
 
 @app.route('/route/<int:route_id>', methods=["GET", "POST"])
 def show_selected_route(route_id):
@@ -259,8 +268,7 @@ def add_route():
             grade=form.grade.data,
             image_url=form.image_url.data,
             description=form.description.data,
-            holds=form.holds.data,
-            techniques=form.techniques.data,
+            beta_video_url=form.beta_video_url.data,
             setter_id=g.user.id,
         )
         
@@ -301,7 +309,7 @@ def add_comment(id):
         
         db.session.commit()
 
-        return redirect(f'/route/{id}')
+        return redirect('/routes')
 
     else: 
         return render_template('routes/add-comment.html', form=form)
@@ -336,6 +344,9 @@ def create_post():
 def like_post(post_id):
     """Like post"""
 
+    post = Post.query.get(post_id)
+    post.total_likes=post.total_likes + 1
+
     Like.like_post(
         user_id=g.user.id,
         post_id=post_id,
@@ -351,7 +362,10 @@ def like_post(post_id):
 def unlike_post(post_id):
     """Unlike post"""
 
-    liked_post = Like.query.filter_by(post_id=post_id).delete()
+    post = Post.query.get(post_id)
+    post.total_likes=post.total_likes - 1
+
+    Like.query.filter_by(post_id=post_id).delete()
     db.session.commit()
 
     return redirect('/')

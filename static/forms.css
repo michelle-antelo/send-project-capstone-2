@@ -60,6 +60,7 @@ input{
 textarea{
     opacity: 75%;
     height: 60px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 ul li{
@@ -86,7 +87,6 @@ input[type="radio"]:checked+label{
     position: relative;
     color: white;
     text-decoration: none;
-    padding: 10px;
     font-size: 20px;
     font-weight: 800;
     background-color: rgb(52, 204, 250, .98);
@@ -96,6 +96,7 @@ input[type="radio"]:checked+label{
     width: 45%;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-shadow: rgb(181, 180, 180) 1px 1px;
+    padding: 10px;
 }
 
 .form-button:hover{
@@ -112,4 +113,45 @@ input[type="radio"]:checked+label{
 .redirect:hover{
     color: rgb(52, 204, 250);
     text-shadow: rgb(0, 126, 164) 1px 1px;
+}
+
+.comment-form-button{
+    text-decoration: none;
+    color: white;
+    background-color: rgb(52, 187, 228);
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    width: 45%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: rgb(181, 180, 180) 1px 1px;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.comment-form-field textarea{
+    height: 140px;
+    width: 73%;
+}
+
+
+.form-labels{
+    font-weight: 800;
+    text-shadow: rgb(181, 180, 180) 1px 1px;
+}
+
+
+.route-form-control{
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 55%;
+    border-color: transparent;
+    text-align: center;
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -1,28 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if request.endpoint != None %}
-    <form action="/friends" class="nav-search-wrapper">
-        <input name="q" class="nav-search" placeholder="Find friends by username" id="search">
-    </form>
-    {% endif %}
-  {% if users|length == 0 %}
-    <h3 class="users-not-found">Sorry, no users found...</h3>
-  {% else %}
-    <div class="users-div">
-      {% for user in users %}
-        {% if user.id != g.user.id%}
-          <div class="card-contents">
-            <div class="image-wrapper">
-              <img class="user-image" src="{{ user.image_url }}" alt="profile picture for {{ user.username }}">
-            </div>
-            <div class="content-wrapper">
-              <p class="user-name">{{ user.name }}</p>
-              <a href="/user/{{ user.id }}" class="card-link">@{{ user.username }}</a>
-              <p class="user-bio">{{ user.bio }}</p>
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
+  <div class="container">
+    <div class="list-header">
+      <h1 class="header">Find friends!</h1>
     </div>
-  {% endif %}
+    {% if request.endpoint != None %}
+      <form action="/friends" class="nav-search-wrapper">
+          <input name="q" class="nav-search" placeholder="Find friends by username" id="search">
+      </form>
+    {% endif %}
+    <div class="users-container">
+      {% if users|length == 0 %}
+        <h3 class="not-found">Sorry, no users found...</h3>
+      {% else %}
+        <div class="users-wrapper">
+          {% for user in users %}
+            {% if user.id != g.user.id%}
+              <div class="user-wrapper">
+                <div class="image-wrapper">
+                  <img class="user-image" src="{{ user.image_url }}" alt="profile picture for {{ user.username }}">
+                </div>
+                <div class="user-name">
+                  <p>{{ user.name }}</p>
+                </div>
+                <div class="user-content-wrapper">
+                  <a href="/user/{{ user.id }}">@{{ user.username }}</a>
+                  <p class="user-bio">{{ user.bio }}</p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

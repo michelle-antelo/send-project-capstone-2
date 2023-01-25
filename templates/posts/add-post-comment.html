@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method="POST">
-        {{ form.hidden_tag() }}
-
-        {% for field in form if field.widget.input_type != 'hidden' %}
-        {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
-        {% endfor %}
-        <div class="form-field">
-            {{ field(placeholder=field.label.text, class="form-control") }}
+    <div class="container">
+        <h1 class="login-header-title">Add Comment!</h1>
+        <div class="form-container">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+        
+                {% for field in form if field.widget.input_type != 'hidden' %}
+                {% for error in field.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+                <div class="comment-form-field">
+                    {{ field(placeholder=field.label.text, class="form-control") }}
+                </div>
+                {% endfor %}
+                <div class="comment-button-container">
+                <button class="comment-form-button">add comment</button>
+                </div>
+            </form>
         </div>
-        {% endfor %}
-
-        <button>Add Comment!</button>
-    </form>
+    </div>
 {% endblock %}

@@ -35,9 +35,8 @@ class AddRouteForm(FlaskForm):
     color = StringField('Color', validators=[DataRequired()])
     grade = StringField('Grade', validators=[DataRequired()])
     image_url = StringField('Route Image URL', validators=[DataRequired()])
+    beta_video_url = StringField('Beta Video URL')
     description = TextAreaField('Description', validators=[DataRequired()])
-    holds = SelectMultipleField("Holds", choices=['jugs', 'crimps', 'slopers', 'pinches', 'pockets'],validators=[DataRequired()])
-    techniques = SelectMultipleField("Techniques", choices=['heel hook', 'toe hook'],validators=[DataRequired()])
 
 
 class AddCommmentForm(FlaskForm):

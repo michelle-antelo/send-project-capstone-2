@@ -2,7 +2,7 @@
     background-image: url("https://www.linkpicture.com/q/Climbing-Background-1.png");
     background-repeat:repeat-y;
     background-size:contain;
-    height:10000px;
+    height:3000px;
 }
 
 .home-header{
@@ -42,4 +42,108 @@
 .create-post-button{
     text-decoration: none;
     color: white;
+}
+
+.following-posts-container{
+    padding: 0;
+    margin: 0;
+}
+
+.posts-container{
+    padding: 0;
+    margin: 0;
+}
+
+.post-container{
+    background-color: rgba(255, 255, 255, 0.772);
+    border-style: double;
+    border-radius: 10px;
+    border-color: rgb(52, 187, 228);
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 0;
+    width: 80%;
+    border-bottom-style: none;
+    padding-bottom: 35px;
+}
+
+.post-caption-wrapper{
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 2px 2px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.user-profile-image{
+    float: left;
+}
+
+.user-image{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 15px;
+}
+
+.post-title{
+    padding: 15px 15px 0 15px;
+    float: none;
+}
+
+.post-description-wrapper{
+    padding-bottom: 15px;
+}
+
+.post-comments-container{
+    background-color: rgba(255, 255, 255, 0.672);
+    border-radius: 10px;
+    border-color: rgb(255, 255, 255);
+    margin: auto;
+    width: 77%;
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-color: white;
+}
+
+.post-comment-wrapper{
+    padding: 5px;
+}
+
+.commenter-image-wrapper{
+    float: left;
+}
+
+.commenter-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 5px;
+}
+
+.comment{
+    padding: 5px 5px 0 5px;
+    float: none;
+}
+
+.post-actions{
+    float: right;
+    margin-right: 10px;
+    display: inline;
+}
+
+.post-actions-links{
+    text-decoration: none;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 3px;
+}
+
+.post-actions-links:hover{
+    color: rgb(132, 226, 255);
+    text-shadow: rgb(42, 175, 215) 1px 1px;
 }

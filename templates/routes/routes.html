@@ -3,38 +3,76 @@
 {% block title %} Routes {% endblock %}
 
 {% block content %}
-    {% if g.user.user_type == 'setter' %}
-        <div>
-            <a href="/add-route">Add route</a>
+    <div class="container">
+        <div class="list-header">
+            <h1 class="header">Climbing Routes!</h1>
         </div>
-    {% endif %}
-    {% if routes|length == 0 %}
-        <h3>Sorry, no routes found...</h3>
-    {% else %}
-        <div>
-            {% for route in routes %}
-                <div>
-                    <div>
-                        <img class="route-image" src="{{ route.image_url }}" alt="{{ route.name }} image">
-                    </div>
-                    <div>
-                        <p>{{ route.name }}</p>
-                        <p>{{ route.description }}</p>
-                        <p>{{ route.holds }}</p>
-                        {% for setter in setters%}
-                            {% if setter.id == route.setter_id %}
-                                <p>{{ setter.name }}</p>
-                            {% endif %}
-                        {% endfor %}
-                        <a href="/route/{{ route.id }}">View more info!</a>
-                    </div>
-                    {% if g.user.user_type == 'setter' %}
-                        <div>
-                            <a href="/delete-route/{{ route.id }}">Remove Route</a>
+        {% if g.user.user_type == 'setter' %}
+            <div class="button-container">
+                <a class="create-route-button" href="/add-route">Add route</a>
+            </div>
+        {% endif %}
+        <div class="routes-container">
+            {% if routes|length == 0 %}
+                <h3 class="not-found">Sorry, no routes found...</h3>
+            {% else %}
+            <div class="routes-wrapper">
+                {% for route in routes %}
+                    <div class="route-wrapper">
+                        <div class="image-wrapper">
+                            <img class="route-image" src="{{ route.image_url }}" alt="{{ route.name }} image">
                         </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                        <div class="route-name">
+                            <p class="route-name">{{ route.name }}</p>
+                        </div>
+                        <div class="route-content-wrapper">
+                            <p>{{ route.section }} - {{ route.color }} {{ route.grade }}</p>
+                        </div>
+                        <div class="route-content-wrapper">
+                            <div>
+                                <p>Description</p>
+                                <p class="description-text">{{ route.description }}</p>
+                            </div>
+                            <div>
+                                <a class="video" href="{{ route.beta_video_url }}">Beta Video Link: </a>
+                                <p class="description-text">{{ route.beta_video_url }}</p>
+                            </div>
+                            <a class="post-actions-links" href="/add-comment/{{ route.id }}">Leave a comment!</a>
+                        </div>
+                        <div class="set-by">
+                            {% for setter in setters%}
+                                {% if setter.id == route.setter_id %}
+                                    <p class="inline"> Routesetter: @<a class="setter-username" href="/user/{{ setter.id }}">{{ setter.username }}</a></p>
+                                {% endif %}
+                            {% endfor %}
+                            {% if g.user.user_type == 'setter' %}
+                                <div class="inline">
+                                    <a class="remove-route-button" href="/delete-route/{{ route.id }}">Remove Route</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="route-comments">
+                            {% if comments|length > 0 %}
+                                    <div class="post-comments-container">
+                                        {% for comment in comments %}
+                                            {% for commenter in setters %}
+                                                {% if route.id == comment.route_id and commenter.id == comment.user_id %}
+                                                    <div class="post-comment-wrapper">
+                                                        <div class="commenter-image-wrapper">
+                                                            <img class="commenter-image" src="{{ commenter.image_url }}" alt="picture for {{ commenter.username }}"/>
+                                                        </div>
+                                                        <p class="comment"><a href="/user/{{ commenter.id }}">@{{ commenter.username }}</a> - {{ comment.description }}</p>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 {% endblock %}

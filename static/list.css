@@ -1,0 +1,197 @@
+.list-header{
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 35px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 800;
+    color: white;
+    text-shadow: rgb(147, 147, 147) 3px 3px;
+}
+
+.container{
+    background-image: url("https://www.linkpicture.com/q/Climbing-Background-1.png");
+    background-repeat:repeat-y;
+    background-size:contain;
+    height:2000px;
+}
+
+.nav-search{
+    margin-top: 15px;
+    width: 50%;
+    border-radius: 10px;
+    border-style: none;
+    padding: 8px;
+}
+
+.not-found{
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 35px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 800;
+    color: white;
+    text-shadow: rgb(147, 147, 147) 3px 3px;
+}
+
+.users.container{
+    padding: 0;
+    margin: 0;
+}
+
+.routes.container{
+    padding: 0;
+    margin: 0;
+}
+
+.create-route-button{
+    text-decoration: none;
+    color: white;
+}
+
+.user-wrapper{
+    background-color: rgba(255, 255, 255, 0.772);
+    border-style: double;
+    border-radius: 10px;
+    border-color: rgb(52, 187, 228);
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 0;
+    width: 70%;
+    padding-bottom: 35px;
+    color: black;
+}
+
+.route-wrapper{
+    background-color: rgba(255, 255, 255, 0.772);
+    border-style: double;
+    border-bottom: none;
+    border-radius: 10px;
+    border-color: rgb(52, 187, 228);
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 0;
+    width: 70%;
+    height: 415px;
+    padding-bottom: 35px;
+    color: black;
+}
+
+.image-wrapper{
+    float: left;
+}
+
+.user-image{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 15px;
+}
+
+.route-image{
+    width: 250px;
+    height: 375px;
+    border-radius: 25px;
+    object-fit: cover;
+    padding: 30px;
+}
+
+.user-name{
+    float: none;
+    text-align: left;
+    padding-top: 30px;
+}
+
+.route-name{
+    float: none;
+    text-align: left;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 2px 2px;
+    font-weight: 800;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+.user-content-wrapper{
+    padding: 20px;
+    padding-top: 0;
+    text-align: left;
+}
+
+.route-content-wrapper{
+    padding: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: left;
+    text-decoration: none;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.set-by{
+    text-align: left;
+    padding-left: 15px;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.setter-username{
+    text-decoration: none;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+}
+
+.setter-username:hover{
+    color: rgb(137, 228, 255)
+}
+
+.description-text{
+    color: black;
+    font-weight: 300;
+    text-shadow: none;
+    text-indent: 10px;
+}
+
+.remove-route-button{
+    text-decoration: none;
+    color: white;
+    background-color: rgb(52, 187, 228);
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: rgb(181, 180, 180) 1px 1px;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 7px;
+    margin-top: 10px;
+}
+
+.remove-route-button:hover{
+    background-color: rgb(137, 228, 255)
+}
+
+.video{
+    text-decoration: none;
+    color: rgb(52, 204, 250);
+    text-shadow: rgb(0, 126, 164) 1px 1px;
+}
+
+.video:hover{
+    color: rgb(137, 228, 255)
+}
+
+.routes-comments{
+    text-align: left;
+}
